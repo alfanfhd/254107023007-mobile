@@ -51,22 +51,22 @@ Aplikasi sederhana ini dibuat untuk memenuhi tugas mata kuliah Pemrograman Mobil
 ## 📸 Screenshots & Penjelasan Singkat
 Berikut adalah beberapa tangkapan layar dari aplikasi beserta fungsinya:
 
-### 1. Tampilan Daftar Post
+### 1. Tampilan Awal (Flutter Boilerplate)
 <img src="secrenshot/image.png" width="200" />
 
-> Menampilkan daftar post (10 item pertama) yang berhasil diunduh dari JSONPlaceholder menggunakan Dio. *State*-nya dikelola secara reaktif menggunakan `flutter_riverpod`.
+> Tampilan default aplikasi Flutter sebelum dikembangkan lebih lanjut. Halaman ini menampilkan counter sederhana bawaan Flutter (`Flutter Demo Home Page`) sebagai titik awal proyek sebelum diintegrasikan dengan REST API.
 
-### 2. Fitur Infinite Scroll (Pagination)
+### 2. Tampilan Daftar Post
 <img src="secrenshot/image%20copy.png" width="200" />
 
-> Terdapat indikator *loading* bundar di bagian bawah layar. Ini menandakan aplikasi sedang menarik halaman data berikutnya secara otomatis saat pengguna men-*scroll* ke ujung bawah tanpa menghapus data sebelumnya.
+> Menampilkan daftar post (10 item pertama) yang berhasil diunduh dari JSONPlaceholder menggunakan Dio. Setiap item menampilkan nomor urut, judul, dan cuplikan isi post. *State*-nya dikelola secara reaktif menggunakan `flutter_riverpod`.
 
-### 3. Halaman Detail Post (GoRouter)
+### 3. Fitur Infinite Scroll (Pagination)
 <img src="secrenshot/image%20copy%202.png" width="200" />
 
-> Memanfaatkan package `go_router` untuk berpindah halaman. Halaman ini bertugas untuk menampilkan judul dan teks *body* secara utuh berdasarkan item yang diklik dari daftar.
+> Terdapat indikator *loading* bundar di bagian bawah layar. Ini menandakan aplikasi sedang menarik halaman data berikutnya secara otomatis saat pengguna men-*scroll* ke ujung bawah, tanpa menghapus data yang sudah ditampilkan sebelumnya.
 
-### 4. Handling Error & State
+### 4. Halaman Detail Post (GoRouter)
 <img src="secrenshot/image%20copy%203.png" width="200" />
 
-> Tampilan yang ramah pengguna apabila koneksi internet terputus atau terjadi gangguan *server*. Dilengkapi dengan terjemahan error ke bahasa Indonesia dan tombol "Coba lagi" untuk melakukan *retry*.
+> Memanfaatkan package `go_router` untuk berpindah halaman. Halaman ini menampilkan judul dan teks *body* post secara utuh berdasarkan item yang diklik dari daftar, lengkap dengan tombol kembali di AppBar.
