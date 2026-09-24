@@ -10,10 +10,7 @@ Aplikasi catatan offline yang bekerja penuh tanpa koneksi internet, dilengkapi m
 
 ## 📸 Screenshots
 
-| Halaman Utama (Kosong) | Halaman Utama (Ada Catatan) | Halaman Pengaturan |
-|:---:|:---:|:---:|
-| ![Empty](screenshots/notes_empty.png) | ![With Notes](screenshots/notes_with_data.png) | ![Settings](screenshots/settings.png) |
-
+> Screenshot akan diperbarui setelah pengujian langsung di perangkat.
 ---
 
 ## 🏗️ Struktur Folder
