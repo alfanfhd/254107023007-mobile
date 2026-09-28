@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../data/prefs.dart';
 
 final prefsRepositoryProvider = Provider((ref) => PrefsRepository());
-
 final darkModeProvider =
     AsyncNotifierProvider<DarkModeNotifier, bool>(DarkModeNotifier.new);
 
@@ -22,30 +21,28 @@ class DarkModeNotifier extends AsyncNotifier<bool> {
   }
 }
 
-/// Toggle forceOffline untuk simulasi offline deterministik.
-/// Matikan Wi-Fi / aktifkan mode pesawat tidak diperlukan saat ini aktif.
-final forceOfflineProvider = NotifierProvider<ForceOfflineNotifier, bool>(
-  ForceOfflineNotifier.new,
-);
-
-class ForceOfflineNotifier extends Notifier<bool> {
-  @override
-  bool build() => false;
-
-  void toggle() => state = !state;
-}
-
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkAsync = ref.watch(darkModeProvider);
 
-class _SettingsPageState extends State<SettingsPage> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: isi dari praktikum
-    return const Scaffold();
+    return Scaffold(
+      appBar: AppBar(title: const Text('Pengaturan')),
+      body: Center(
+        child: isDarkAsync.when(
+          data: (isDark) => SwitchListTile(
+            title: const Text('Mode Gelap (Dark Mode)'),
+            value: isDark,
+            onChanged: (val) {
+              ref.read(darkModeProvider.notifier).toggle();
+            },
+          ),
+          loading: () => const CircularProgressIndicator(),
+          error: (err, stack) => Text('Error: $err'),
+        ),
+      ),
+    );
   }
 }

@@ -1,10 +1,26 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
 Future<Database> openNotesDb() async {
-  final dir = await getDatabasesPath();
+  if (kIsWeb) {
+    databaseFactory = databaseFactoryFfiWeb;
+  } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
+
+  String path = 'offline_notes.db';
+  if (!kIsWeb) {
+    final dir = await getDatabasesPath();
+    path = p.join(dir, path);
+  }
+
   return openDatabase(
-    p.join(dir, 'offline_notes.db'),
+    path,
     version: 1,
     onCreate: (db, version) async {
       await db.execute('''

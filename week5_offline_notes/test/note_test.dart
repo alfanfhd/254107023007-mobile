@@ -50,7 +50,6 @@ void main() {
         ),
       ],
     );
-    addTearDown(container.dispose);
     final notes = await container.read(notesProvider.future);
     expect(notes.length, 1);
     expect(notes.first.title, 'Tes');
@@ -64,8 +63,8 @@ void main() {
         ),
       ],
     );
-    addTearDown(container.dispose);
-    await expectLater(
+    
+    expect(
       container.read(notesProvider.future),
       throwsA(isA<Exception>()),
     );

@@ -49,15 +49,3 @@ class NoteRepository {
     await db.update('notes', {'dirty': 0}, where: 'dirty = 1');
   }
 }
-
-/// Sinkronisasi catatan dirty ke server (simulasi).
-/// Pada project nyata: kirim tiap catatan dirty ke REST API,
-/// lalu tandai bersih bila server menjawab 2xx.
-Future<int> syncNotes(NoteRepository repo) async {
-  final dirtyCount = await repo.countDirty();
-  if (dirtyCount == 0) return 0;
-  // Simulasi upload dengan delay
-  await Future.delayed(const Duration(seconds: 1));
-  await repo.markAllSynced();
-  return dirtyCount;
-}
