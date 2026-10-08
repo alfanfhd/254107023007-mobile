@@ -42,6 +42,17 @@ Aplikasi ini dikembangkan sebagai portal informasi dan pengumuman bagi mahasiswa
 
 ---
 
+## 📸 Screenshots
+
+Berikut adalah beberapa tangkapan layar dari aplikasi Campus Notify saat dijalankan:
+
+| Tampilan 1 | Tampilan 2 | Tampilan 3 |
+|:---:|:---:|:---:|
+| <img src="screenshots/image.png" width="250" alt="Screenshot 1"/> | <img src="screenshots/image copy.png" width="250" alt="Screenshot 2"/> | <img src="screenshots/image copy 2.png" width="250" alt="Screenshot 3"/> |
+| *Tampilan halaman aplikasi* | *Tampilan halaman aplikasi* | *Tampilan halaman aplikasi* |
+
+---
+
 ## 📝 Refleksi
 
 **1. Mengapa refresh token tidak boleh disimpan di SharedPreferences? Apa risikonya bila bocor?**
