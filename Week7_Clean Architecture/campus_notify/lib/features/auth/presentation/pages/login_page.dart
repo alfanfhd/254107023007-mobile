@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../providers/auth_providers.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -32,14 +33,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             child: Container(
               padding: const EdgeInsets.all(32.0),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withValues(alpha: 0.9),
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
+                    color: Colors.black.withValues(alpha: 0.15),
                     blurRadius: 20,
                     offset: const Offset(0, 10),
-                  )
+                  ),
                 ],
               ),
               child: Column(
@@ -63,10 +64,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   const SizedBox(height: 8),
                   Text(
                     'Masuk untuk melihat pengumuman',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 32),
                   TextField(
@@ -97,9 +95,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                   const SizedBox(height: 24),
                   if (authState.isLoading)
-                    const CircularProgressIndicator(
-                      color: Color(0xFF4A00E0),
-                    )
+                    const CircularProgressIndicator(color: Color(0xFF4A00E0))
                   else
                     SizedBox(
                       width: double.infinity,
@@ -114,10 +110,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           elevation: 5,
                         ),
                         onPressed: () {
-                          ref.read(authStateProvider.notifier).login(
-                                _email.text,
-                                _password.text,
-                              );
+                          ref
+                              .read(authStateProvider.notifier)
+                              .login(_email.text, _password.text);
                         },
                         child: const Text(
                           'Masuk',
@@ -154,7 +149,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ],
                       ),
                     ),
-                  ]
+                  ],
                 ],
               ),
             ),

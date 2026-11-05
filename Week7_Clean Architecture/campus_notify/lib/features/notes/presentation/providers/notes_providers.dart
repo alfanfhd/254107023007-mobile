@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
 import '../../data/repositories/note_repository_impl.dart';
 import '../../domain/repositories/note_repository.dart';
+import '../../domain/usecases/add_note.dart';
 import '../../domain/usecases/get_notes.dart';
 import '../../domain/entities/note.dart';
 
@@ -26,6 +28,10 @@ final noteRepositoryProvider = Provider<NoteRepository>((ref) {
 // Domain layer: use case menerima abstraksi, bukan implementasi
 final getNotesProvider = Provider<GetNotes>((ref) {
   return GetNotes(ref.watch(noteRepositoryProvider));
+});
+
+final addNoteProvider = Provider<AddNote>((ref) {
+  return AddNote(ref.watch(noteRepositoryProvider));
 });
 
 // Presentation layer: state untuk UI

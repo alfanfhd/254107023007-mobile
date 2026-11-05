@@ -6,7 +6,10 @@ class LoginUseCase {
   const LoginUseCase(this._repository);
   final AuthRepository _repository;
 
-  Future<({AuthSession? session, Failure? failure})> call(String email, String password) {
+  Future<({AuthSession? session, Failure? failure})> call(
+    String email,
+    String password,
+  ) {
     return _repository.login(email: email, password: password);
   }
 }

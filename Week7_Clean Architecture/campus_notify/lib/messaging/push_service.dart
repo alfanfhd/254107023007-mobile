@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 import '../routes.dart';
 
 final _local = FlutterLocalNotificationsPlugin();
@@ -30,7 +32,9 @@ Future<void> initLocalNotifications() async {
   );
 }
 
-Future<void> initFcmToken({required Future<void> Function(String token) onToken}) async {
+Future<void> initFcmToken({
+  required Future<void> Function(String token) onToken,
+}) async {
   final token = await FirebaseMessaging.instance.getToken();
   if (token != null) await onToken(token);
   FirebaseMessaging.instance.onTokenRefresh.listen(onToken);
@@ -41,7 +45,7 @@ Future<void> initFcmToken({required Future<void> Function(String token) onToken}
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // Handler untuk state Background / Terminated
   // Jangan akses BuildContext / Riverpod di sini karena ini berjalan di isolate terpisah.
-  print("Handling a background message: ${message.messageId}");
+  debugPrint("Handling a background message: ${message.messageId}");
 }
 
 void registerBackgroundHandler() {
@@ -53,8 +57,10 @@ void listenForeground(void Function(String route) go) {
   FirebaseMessaging.onMessage.listen((message) async {
     final route = routeFromMessage(message.data);
     const androidDetails = AndroidNotificationDetails(
-      'pengumuman', 'Pengumuman Kampus',
-      importance: Importance.high, priority: Priority.high,
+      'pengumuman',
+      'Pengumuman Kampus',
+      importance: Importance.high,
+      priority: Priority.high,
     );
     await _local.show(
       id: message.hashCode,
