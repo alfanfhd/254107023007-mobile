@@ -6,6 +6,7 @@ import '../../data/repositories/note_repository_impl.dart';
 import '../../domain/repositories/note_repository.dart';
 import '../../domain/usecases/add_note.dart';
 import '../../domain/usecases/get_notes.dart';
+import '../../domain/usecases/search_notes.dart';
 import '../../domain/entities/note.dart';
 
 Future<Database> openNotesDb() async {
@@ -39,4 +40,34 @@ final notesProvider = FutureProvider<List<Note>>((ref) async {
   final result = await ref.watch(getNotesProvider).call();
   if (result.failure != null) throw Exception(result.failure!.message);
   return result.notes;
+});
+
+// Riverpod 3: Menggunakan Notifier class (bukan legacy StateProvider)
+class SearchQueryNotifier extends Notifier<String> {
+  @override
+  String build() => '';
+
+  void updateQuery(String query) => state = query;
+  void clear() => state = '';
+}
+
+// State query string pencarian judul catatan
+final searchQueryProvider = NotifierProvider<SearchQueryNotifier, String>(
+  SearchQueryNotifier.new,
+);
+
+// Use case pencarian judul (Domain)
+final searchNotesUseCaseProvider = Provider<SearchNotes>((ref) {
+  return const SearchNotes();
+});
+
+// Selector Provider: memadukan daftar catatan dengan filter pencarian
+final filteredNotesProvider = Provider<AsyncValue<List<Note>>>((ref) {
+  final notesAsync = ref.watch(notesProvider);
+  final query = ref.watch(searchQueryProvider);
+  final searchUseCase = ref.watch(searchNotesUseCaseProvider);
+
+  return notesAsync.whenData((notes) {
+    return searchUseCase(notes: notes, query: query);
+  });
 });

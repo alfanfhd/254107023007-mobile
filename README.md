@@ -15,11 +15,11 @@ Repository ini berisi dokumentasi dan implementasi progres pembelajaran mata kul
 ├── 01-week-1-mobile-development-ecosystem-flutter-refresh/
 ├── 02-week-2-declarative-ui-responsive-design/
 ├── 03-week-3-navigation-state-management/
-├── 04-week-4-networking-rest-api/
-├── 05-week-5-local-storage-offline-first/
-├── 06-week-6-authentication-security-fcm/
-├── 07-week-7-clean-architecture/
-├── 08-week-8-mid-project-review/
+├── week4_api/
+├── week5_offline_notes/
+├── Week6_Authentication, Security & FCM/
+├── Week7_Clean Architecture/
+├── week8_Mid Project Review & Code Review/
 ├── 09-week-9-ai-assisted-development/
 ├── 10-week-10-ai-feature-integration/
 ├── 11-week-11-performance-optimization/
@@ -33,14 +33,14 @@ Repository ini berisi dokumentasi dan implementasi progres pembelajaran mata kul
 
 ## Progress
 - [x] Week 1: Mobile Development Ecosystem & Flutter Refresh
-- [ ] Week 2: Declarative UI & Responsive Design
-- [ ] Week 3: Navigation & State Management
-- [ ] Week 4: Networking & REST API
-- [ ] Week 5: Local Storage & Offline First
-- [ ] Week 6: Authentication, Security & FCM
-- [ ] Week 7: Clean Architecture
-- [ ] Week 8: Mid Project Review
-- [ ] Week 9: AI Assisted Development
+- [x] Week 2: Declarative UI & Responsive Design
+- [x] Week 3: Navigation & State Management
+- [x] Week 4: Networking & REST API
+- [x] Week 5: Local Storage & Offline First
+- [x] Week 6: Authentication, Security & FCM
+- [x] Week 7: Clean Architecture
+- [x] Week 8: Mid Project Review & Code Review
+- [x] Week 9: AI Assisted Development / Vibe Coding
 - [ ] Week 10: AI Feature Integration
 - [ ] Week 11: Performance Optimization
 - [ ] Week 12: Testing & Quality Assurance
@@ -50,28 +50,22 @@ Repository ini berisi dokumentasi dan implementasi progres pembelajaran mata kul
 - [ ] Week 16: Final Project Expo
 
 ## Stack Teknologi Utama
-- **Framework**: Flutter, React Native
-- **Bahasa**: Dart, JavaScript/TypeScript
-- **Backend**: REST API, Firebase
-- **Database**: SQLite, SharedPreferences
-- **Tools**: Git, GitHub, CI/CD
+- **Framework**: Flutter (Channel Stable)
+- **Bahasa**: Dart
+- **State Management**: Riverpod (Notifier, FutureProvider, Provider)
+- **Networking**: Dio (dengan Auth & Token Refresh Interceptors)
+- **Database & Storage**: SQLite (sqflite), FlutterSecureStorage
+- **Cloud Messaging**: Firebase Core, Firebase Messaging, Flutter Local Notifications
+- **Routing**: GoRouter (Declarative Routing & Deep Linking)
+- **Otomasi**: GitHub Actions CI (`.github/workflows/ci.yml`)
 
-## Cara Menggunakan
-Setiap folder minggu berisi:
-- `README.md`: Penjelasan tujuan, fitur, dan cara menjalankan
-- `lib/`: Source code aplikasi
-- `test/`: Unit test dan integration test
-- `screenshots/`: Bukti visual implementasi
-- `docs/`: Dokumentasi tambahan
-
-## Catatan & Refleksi
-Folder `notes/` berisi:
-- `reflections/`: Refleksi pembelajaran per minggu
-- `learning-journal/`: Jurnal pembelajaran
-- `resources/`: Referensi dan sumber belajar
+## Panduan Pengujian Mesin
+Jalankan di direktori proyek `Week7_Clean Architecture/campus_notify`:
+```bash
+flutter analyze
+dart format --set-exit-if-changed .
+flutter test
+```
 
 ## Lisensi
 Project ini dibuat untuk keperluan pembelajaran mata kuliah Pemrograman Mobile.
-
----
-**Last Updated**: 28 Agustus 2026
