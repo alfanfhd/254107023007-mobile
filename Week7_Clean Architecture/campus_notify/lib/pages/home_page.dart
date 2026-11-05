@@ -116,6 +116,8 @@ class HomePage extends ConsumerWidget {
                         ),
                         const SizedBox(height: 16),
                         _buildNotesCard(context),
+                        const SizedBox(height: 16),
+                        _buildAiChatCard(context),
                       ],
                     ),
                   ),
@@ -227,6 +229,56 @@ class HomePage extends ConsumerWidget {
               ),
             ),
             Icon(Icons.chevron_right_rounded, color: Colors.blue.shade400),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAiChatCard(BuildContext context) {
+    return InkWell(
+      key: const Key('open_ai_chat_card'),
+      onTap: () => context.go(AppRoutes.aiChat),
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.purple.shade50,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.purple.shade200),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.purple.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.smart_toy_rounded, color: Colors.purple),
+            ),
+            const SizedBox(width: 16),
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Asisten AI Kampus',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF333333),
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Chat cerdas & tanya jawab jadwal dengan Gemini AI',
+                    style: TextStyle(fontSize: 12, color: Colors.purple),
+                  ),
+                ],
+              ),
+            ),
+            Icon(Icons.chevron_right_rounded, color: Colors.purple.shade400),
           ],
         ),
       ),

@@ -8,6 +8,7 @@ import 'features/auth/presentation/pages/login_page.dart';
 import 'pages/home_page.dart';
 import 'pages/announcement_page.dart';
 import 'features/notes/presentation/pages/notes_page.dart';
+import 'features/chat_screen.dart';
 import 'messaging/push_service.dart';
 import 'routes.dart';
 import 'firebase_options.dart';
@@ -53,6 +54,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.notes,
         builder: (context, state) => const NotesPage(),
+      ),
+      GoRoute(
+        path: AppRoutes.aiChat,
+        builder: (context, state) => const AiChatPage(),
       ),
     ],
   );
