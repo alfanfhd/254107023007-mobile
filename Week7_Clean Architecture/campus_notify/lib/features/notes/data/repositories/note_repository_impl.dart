@@ -1,23 +1,21 @@
 import 'package:sqflite/sqflite.dart';
+
 import '../../../../core/failures.dart';
 import '../../domain/entities/note.dart';
 import '../../domain/repositories/note_repository.dart';
 import '../models/note_model.dart';
 
 class NoteRepositoryImpl implements NoteRepository {
-  NoteRepositoryImpl({required Future<Database> Function() openDb})
-      : _openDb = openDb;
+  NoteRepositoryImpl({required this.openDb});
 
-  final Future<Database> Function() _openDb;
+  final Future<Database> Function() openDb;
 
   @override
   Future<({List<Note> notes, Failure? failure})> fetchNotes() async {
     try {
-      final db = await _openDb();
-      final rows =
-          await db.query('notes', orderBy: 'updated_at DESC');
-      final notes =
-          rows.map((r) => NoteModel.fromMap(r).toEntity()).toList();
+      final db = await openDb();
+      final rows = await db.query('notes', orderBy: 'updated_at DESC');
+      final notes = rows.map((r) => NoteModel.fromMap(r).toEntity()).toList();
       return (notes: notes, failure: null);
     } catch (e) {
       return (
@@ -33,22 +31,29 @@ class NoteRepositoryImpl implements NoteRepository {
     String body = '',
   }) async {
     try {
-      final db = await _openDb();
+      final db = await openDb();
       final now = DateTime.now();
       final id = await db.insert(
         'notes',
         NoteModel(
-            title: title, body: body, updatedAt: now, dirty: true)
-            .toMap(),
+          title: title,
+          body: body,
+          updatedAt: now,
+          dirty: true,
+        ).toMap(),
       );
       return (
-        note: Note(id: id, title: title, body: body,
-            updatedAt: now, dirty: true),
+        note: Note(
+          id: id,
+          title: title,
+          body: body,
+          updatedAt: now,
+          dirty: true,
+        ),
         failure: null,
       );
     } catch (e) {
-      return (note: null,
-          failure: LocalFailure('Gagal menyimpan catatan: $e'));
+      return (note: null, failure: LocalFailure('Gagal menyimpan catatan: $e'));
     }
   }
 }

@@ -52,9 +52,12 @@ class AnnouncementPage extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
-                            color: Colors.orange.withOpacity(0.1),
+                            color: Colors.orange.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
@@ -88,7 +91,11 @@ class AnnouncementPage extends StatelessWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(Icons.calendar_today_rounded, size: 16, color: Colors.grey.shade600),
+                        Icon(
+                          Icons.calendar_today_rounded,
+                          size: 16,
+                          color: Colors.grey.shade600,
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           'Hari ini, 08:00 WIB',
@@ -122,7 +129,10 @@ class AnnouncementPage extends StatelessWidget {
                         style: OutlinedButton.styleFrom(
                           foregroundColor: const Color(0xFF4A00E0),
                           side: const BorderSide(color: Color(0xFF4A00E0)),
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),

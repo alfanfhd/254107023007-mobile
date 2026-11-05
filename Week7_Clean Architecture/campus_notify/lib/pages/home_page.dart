@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import '../features/auth/presentation/providers/auth_providers.dart';
 import '../routes.dart';
 
@@ -25,7 +26,7 @@ class HomePage extends ConsumerWidget {
             onPressed: () {
               ref.read(authStateProvider.notifier).logout();
             },
-          )
+          ),
         ],
       ),
       body: Container(
@@ -57,7 +58,7 @@ class HomePage extends ConsumerWidget {
                   'Selamat datang di portal pengumuman kampus Anda.',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.white.withOpacity(0.8),
+                    color: Colors.white.withValues(alpha: 0.8),
                   ),
                 ),
                 const SizedBox(height: 40),
@@ -69,7 +70,7 @@ class HomePage extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(24),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 20,
                           offset: const Offset(0, 5),
                         ),
@@ -80,7 +81,10 @@ class HomePage extends ConsumerWidget {
                       children: [
                         const Row(
                           children: [
-                            Icon(Icons.notifications_active_rounded, color: Color(0xFF4A00E0)),
+                            Icon(
+                              Icons.notifications_active_rounded,
+                              color: Color(0xFF4A00E0),
+                            ),
                             SizedBox(width: 10),
                             Text(
                               'Pengumuman Terbaru',
@@ -124,12 +128,14 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget _buildAnnouncementCard(BuildContext context,
-      {required String id,
-      required String title,
-      required String date,
-      required IconData icon,
-      required Color color}) {
+  Widget _buildAnnouncementCard(
+    BuildContext context, {
+    required String id,
+    required String title,
+    required String date,
+    required IconData icon,
+    required Color color,
+  }) {
     return InkWell(
       onTap: () => context.go('/pengumuman/$id'),
       borderRadius: BorderRadius.circular(16),
@@ -145,7 +151,7 @@ class HomePage extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
+                color: color.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: color),
@@ -166,10 +172,7 @@ class HomePage extends ConsumerWidget {
                   const SizedBox(height: 4),
                   Text(
                     date,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey.shade600,
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                   ),
                 ],
               ),
@@ -197,7 +200,7 @@ class HomePage extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
+                color: Colors.blue.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.note_alt_rounded, color: Colors.blue),
@@ -218,10 +221,7 @@ class HomePage extends ConsumerWidget {
                   SizedBox(height: 4),
                   Text(
                     'Fitur dari modul Clean Architecture',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.blueGrey,
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.blueGrey),
                   ),
                 ],
               ),

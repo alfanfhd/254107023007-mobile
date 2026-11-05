@@ -1,0 +1,28 @@
+name: ci
+
+on:
+  pull_request:
+    branches: [ develop, main ]
+  push:
+    branches: [ develop, main ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "Week7_Clean Architecture/campus_notify"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Verify formatting
+        run: dart format --set-exit-if-changed .
+      - name: Run static analysis
+        run: flutter analyze
+      - name: Run unit tests
+        run: flutter test

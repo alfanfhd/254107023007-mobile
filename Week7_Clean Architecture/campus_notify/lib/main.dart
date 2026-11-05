@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import 'features/auth/presentation/providers/auth_providers.dart';
 import 'features/auth/presentation/pages/login_page.dart';
 import 'pages/home_page.dart';
@@ -15,11 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   registerBackgroundHandler(); // Daftarkan handler background FCM
-  runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -27,7 +24,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: AppRoutes.login,
     redirect: (context, state) {
       final authState = ref.watch(authStateProvider);
-      
+
       // Jika state masih loading, biarkan dulu (jangan dipaksa pindah mendadak)
       if (authState.isLoading) return null;
 
@@ -50,9 +47,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.announcement,
-        builder: (context, state) => AnnouncementPage(
-          id: state.pathParameters['id'] ?? '',
-        ),
+        builder: (context, state) =>
+            AnnouncementPage(id: state.pathParameters['id'] ?? ''),
       ),
       GoRoute(
         path: AppRoutes.notes,
@@ -71,9 +67,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'Campus Notify',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
       routerConfig: router,
     );
   }

@@ -11,14 +11,17 @@ class AuthRepositoryImpl implements AuthRepository {
     await Future.delayed(const Duration(milliseconds: 500));
     try {
       if (!email.contains('@') || password.length < 6) {
-        return (session: null, failure: const LocalFailure('Email atau kata sandi tidak valid'));
+        return (
+          session: null,
+          failure: const LocalFailure('Email atau kata sandi tidak valid'),
+        );
       }
       return (
         session: AuthSession(
           access: 'mock-access-for-$email',
           refresh: 'mock-refresh-for-$email',
         ),
-        failure: null
+        failure: null,
       );
     } catch (e) {
       return (session: null, failure: NetworkFailure('Gagal login: $e'));
@@ -26,15 +29,20 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<({String? token, Failure? failure})> refresh(String refreshToken) async {
+  Future<({String? token, Failure? failure})> refresh(
+    String refreshToken,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 300));
     try {
       if (refreshToken.isEmpty) {
-        return (token: null, failure: const LocalFailure('Refresh token hilang'));
+        return (
+          token: null,
+          failure: const LocalFailure('Refresh token hilang'),
+        );
       }
       return (
         token: 'mock-access-renewed-${DateTime.now().millisecondsSinceEpoch}',
-        failure: null
+        failure: null,
       );
     } catch (e) {
       return (token: null, failure: NetworkFailure('Gagal refresh token: $e'));
