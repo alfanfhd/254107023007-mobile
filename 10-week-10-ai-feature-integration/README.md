@@ -1,84 +1,86 @@
-# Minggu 10: AI Feature Integration
+# Minggu 10: Integrasi Fitur AI (AI Feature Integration)
 
 **Mata Kuliah:** Pemrograman Mobile  
 **Nama Mahasiswa:** Mochammad Alfan Fadhilah  
 **NIM:** 254107023007  
-**Topik Pembelajaran:** #10 AI Feature Integration (LLM API, Prompt Design, OCR & STT, Fallback Design)  
+**Topik Pembelajaran:** #10 Integrasi Fitur AI (LLM API, Prompt Design, OCR & STT, Fallback Design)  
 **Proyek Basis:** Campus Notify & Offline Notes (`Week7_Clean Architecture/campus_notify`)  
+**Branch:** `develop`
 
 ---
 
-## 📌 Ringkasan Modul Minggu 10
+## 📌 Ringkasan Modul & Hasil Kerja
 
-Modul ini berfokus pada integrasi kecerdasan buatan (*Cloud LLM API*) ke dalam aplikasi mobile berbasis arsitektur bersih (*Clean Architecture*). Fitur yang dikembangkan adalah **Asisten Cerdas Kampus Polinema** yang terhubung dengan Google Gemini API (`gemini-1.5-flash`), dilengkapi dengan mekanisme keamanan kunci (*Secure Storage*), penyaringan privasi data sensitif pengguna (*guardrails*), penanganan error terstruktur (*fallback design*), serta fondasi untuk fitur multimodal seperti OCR dan Speech-to-Text.
+Modul Minggu 10 berfokus pada integrasi model kecerdasan buatan (*Cloud LLM API*) ke dalam aplikasi mobile berbasis arsitektur bersih (*Clean Architecture*). Fitur yang diimplementasikan adalah **Asisten Cerdas Kampus Polinema** yang terhubung langsung dengan endpoint Google Gemini API (`gemini-1.5-flash`), dilengkapi penyimpanan kunci terenkripsi (*Secure Storage*), penyaringan otomatis data privasi (NIK guardrails), penanganan error terstruktur (*fallback design*), serta arsitektur multimodal untuk OCR dan Speech-to-Text.
 
----
-
-## 🧱 Fitur Utama & Keunggulan Rekayasa
-
-1. **Integrasi Google Gemini API:**
-   - Menggunakan endpoint resmi Google Generative Language API (`v1beta/models/gemini-1.5-flash:generateContent`).
-   - Menyertakan **System Prompt** khusus persona kampus: respons ringkas (maksimal 3 kalimat), ramah, berbahasa Indonesia, dan relevan dengan kehidupan akademik mahasiswa Polinema.
-2. **Penyimpanan Kunci API Terenkripsi:**
-   - Kunci API tidak pernah disimpan di kode sumber (*zero hardcoded secret*).
-   - Menggunakan `flutter_secure_storage` yang terenkripsi di *Android KeyStore* dan *iOS Keychain*.
-   - Tersedia dialog pengaturan interaktif di aplikasi untuk memasukkan dan memperbarui API key secara langsung.
-3. **Penyaringan Privasi (Data Privacy Guardrails):**
-   - Fungsi `sanitizePrompt()` secara otomatis mendeteksi pola 16 digit angka (Nomor Induk Kependudukan / NIK) dan menyamarkannya menjadi `[NIK_DISAMARKAN]` sebelum payload dikirimkan ke cloud.
-4. **Fallback Design Ramah Pengguna:**
-   - Ketika koneksi offline, kuota habis (HTTP 403), atau server sibuk, aplikasi tidak mengalami *crash*.
-   - Menampilkan **Fallback Bubble** bernuansa ramah: *"Layanan AI Sibuk: Silakan coba lagi nanti atau gunakan mode offline"*.
-5. **Dukungan Multimodal (OCR & STT):**
-   - Menyediakan interface `recognizeText()` untuk ekstraksi teks dokumen/pengumuman dan `speechToText()` untuk transkripsi perintah suara.
+Sesuai instruksi penugasan, seluruh artefak pada folder `10-week-10-ai-feature-integration/` memuat:
+1. `lib/`: Salinan kode sumber lengkap aplikasi `campus_notify` termasuk modul AI.
+2. `docs/`: Panduan integrasi serta `ai-log.md` (berisi prompt sistem, prompt pengguna, dan raw output AI).
+3. `README.md`: Dokumentasi komprehensif, bukti mesin hijau, tabel risiko & mitigasi, serta refleksi.
+4. `screenshots/`: Bukti visual antarmuka dan alur interaksi AI.
 
 ---
 
-## 🏛️ Arsitektur Clean Architecture
+## 🏛️ Arsitektur Integrasi AI (Clean Architecture)
+
+Mengikuti prinsip sterilitas arsitektur: domain layer murni Dart tanpa import framework atau API luar.
 
 ```
 lib/
 ├── ai/
-│   └── ai_service.dart                   # Client HTTP & Secure Storage Gemini
+│   └── ai_service.dart                   # Service client Gemini API, sanitasi NIK, & Secure Storage
 └── features/
-    └── ai/
-        ├── data/
-        │   └── repositories/
-        │       └── ai_repository_impl.dart # Implementasi repository & mapping error
-        ├── domain/
-        │   ├── entities/
-        │   │   └── chat_message.dart      # Entitas pesan chat murni Dart
-        │   ├── repositories/
-        │   │   └── ai_repository.dart     # Kontrak interface repositori
-        │   └── usecases/
-        │       └── ask_campus_ai.dart     # Logika validasi dan eksekusi prompt
-        └── presentation/
-            ├── providers/
-            │   └── ai_providers.dart      # Riverpod Notifier chat & loading state
-            └── pages/
-                └── ai_chat_page.dart      # Antarmuka UI chat mobile & dialog key
+    ├── ai/
+    │   ├── domain/
+    │   │   ├── entities/
+    │   │   │   └── chat_message.dart      # Entitas pesan (User vs AI, timestamp, status)
+    │   │   ├── repositories/
+    │   │   │   └── ai_repository.dart     # Interface kontrak domain murni
+    │   │   └── usecases/
+    │   │       └── ask_campus_ai.dart     # Logika validasi input & pemanggilan AI
+    │   ├── data/
+    │   │   └── repositories/
+    │   │       └── ai_repository_impl.dart # Implementasi repository & error mapping
+    │   └── presentation/
+    │       ├── providers/
+    │       │   └── ai_providers.dart      # State management Riverpod (messages & loading)
+    │       └── pages/
+    │           └── ai_chat_page.dart      # Antarmuka chat interaktif & dialog input API Key
+    └── chat_screen.dart                  # Layar alternatif integrasi cepat sesuai codelab
 ```
 
 ---
 
-## 🧪 Bukti Mesin Hijau (Quality Gates)
+## 🛡️ Tabel Risiko & Mitigasi Privasi dan Biaya
 
-Semua pemeriksaan mesin pada proyek `Week7_Clean Architecture/campus_notify` berstatus **LULUS (100% HIJAU)**:
+| Kategori Risiko | Potensi Masalah / Dampak | Strategi Mitigasi Terapan di Kode |
+|---|---|---|
+| **Privasi Pengguna (Kebocoran NIK)** | Pengguna tidak sengaja memasukkan NIK atau nomor identitas rahasia ke dalam prompt yang dikirim ke cloud server. | **Client-side Sanitization (`sanitizePrompt`):** Regex otomatis mendeteksi pola 16 digit angka `\b\d{16}\b` dan menggantinya dengan `[NIK_DISAMARKAN]` sebelum HTTP payload dikirim ke API Gemini. |
+| **Pencurian API Key (Security Leak)** | Kunci API terekspos jika ditaruh langsung di kode sumber (*hardcoded*) atau disimpan di SharedPreferences plaintext. | **Hardware-backed Storage:** Menggunakan `flutter_secure_storage` yang terenkripsi di *Android KeyStore* dan *iOS Keychain*. Kunci diinput pengguna langsung melalui dialog UI di dalam aplikasi. |
+| **Pembengkakan Biaya (Token Quota)** | Prompt pengguna yang panjang atau respons model LLM yang bertele-tele menghabiskan kuota token dan menambah biaya/latensi. | **System Prompt Tuning:** System prompt membatasi model agar menjawab maksimal 3 kalimat padat to-the-point (`"maksimal 3 kalimat"`), menghemat hingga ~70% token per interaksi. |
+| **Layanan Cloud Down / Rate Limit** | Kegagalan jaringan seluler, HTTP 429 (Too Many Requests), atau HTTP 403 (kuota habis) menyebabkan aplikasi *crash*. | **Graceful Fallback UI:** Try-catch di data repository menangkap semua HTTP/Network failure dan mengembalikan bubble chat informatif (*"Layanan AI Sibuk: Silakan coba lagi nanti atau gunakan mode offline"*). |
+| **Input Kosong / Spam Request** | Menekan tombol kirim berulang kali saat prompt kosong atau koneksi lambat menyebabkan pemborosan kuota API. | **Domain Validation:** Use case `AskCampusAi` memvalidasi input `trim().isEmpty` dan melempar `ValidationFailure` sebelum panggilan HTTP dilakukan, serta tombol kirim di-*disable* saat loading. |
+
+---
+
+## 🧪 Bukti Mesin Hijau (Quality Gates: 100% Lulus)
+
+Seluruh 3 gerbang kualitas mesin diverifikasi pada project `Week7_Clean Architecture/campus_notify`:
 
 ### 1. Analisis Statis Kode (`flutter analyze`)
 ```text
 Analyzing campus_notify...
 No issues found! (ran in 5.8s)
 ```
-*Status: 0 issues (bersih dari peringatan, impor usang, dan konstruktor non-formal).*
+*Hasil: 0 warning, 0 error, 0 info.*
 
 ### 2. Format Standar Dart (`dart format --set-exit-if-changed .`)
 ```text
 Formatted 39 files (0 changed) in 0.24 seconds.
 ```
-*Status: Seluruh 39 file Dart memenuhi konvensi formatting resmi.*
+*Hasil: Seluruh file Dart rapi dan konsisten.*
 
 ### 3. Pengujian Otomatis Unit & Widget (`flutter test`)
-Pengujian mencakup otentikasi, push route, notes CRUD, search notes, AI service, dan widget chat:
 ```text
 00:00 +0: AiService Tests Melempar exception jika API key belum diatur di secure storage
 00:00 +1: AiService Tests Berhasil mengembalikan respons teks saat API Gemini mengembalikan HTTP 200
@@ -91,46 +93,30 @@ Pengujian mencakup otentikasi, push route, notes CRUD, search notes, AI service,
 00:03 +8: Menampilkan bubble Fallback Error ramah saat pemanggilan AI gagal
 00:04 +24: All tests passed!
 ```
-*Status: Seluruh 24 dari 24 test lulus tanpa kegagalan.*
+*Hasil: 24 dari 24 test LULUS.*
 
 ---
 
-## 🚀 Panduan Menjalankan & Cara Uji
+## 🧠 Jawaban Refleksi Pembelajaran
 
-### 1. Menjalankan Aplikasi
-```bash
-cd "Week7_Clean Architecture/campus_notify"
-flutter pub get
-flutter run
-```
+### 1. Fitur AI mana yang Anda integrasikan dan mengapa?
+> **Jawaban:**  
+> Saya mengintegrasikan fitur **Asisten Cerdas Kampus (Chat Interface dengan Google Gemini 1.5 Flash)**. Fitur ini dipilih karena sangat relevan dengan kebutuhan mahasiswa sehari-hari di aplikasi kampus, seperti menanyakan info jadwal kuliah, tips belajar, dan informasi akademik secara interaktif. Model `gemini-1.5-flash` dipilih karena memiliki kecepatan inferensi yang sangat tinggi (*low latency*) dan biaya token yang efisien untuk aplikasi mobile, serta dilengkapi rancangan antarmuka untuk pengembangan multimodal lanjutan (OCR dan Speech-to-Text).
 
-### 2. Konfigurasi Kunci API di Aplikasi
-1. Buka aplikasi dan masuk ke Beranda Dashboard.
-2. Klik kartu menu **Asisten AI Kampus**.
-3. Klik tombol ikon kunci (**Key**) di pojok kanan atas AppBar.
-4. Masukkan Google Gemini API Key Anda (dari Google AI Studio) -> Klik **Simpan**. Kunci akan tersimpan secara terenkripsi di Secure Storage perangkat.
+### 2. Bagaimana Anda melindungi privasi pengguna saat menggunakan AI API?
+> **Jawaban:**  
+> Privasi dilindungi melalui tiga lapisan pertahanan:
+> 1. **Client-side Masking:** Terdapat fungsi sanitasi otomatis (`sanitizePrompt()`) yang mendeteksi pola data pribadi sensitif (seperti 16 digit NIK/KTP) dan mengubahnya menjadi `[NIK_DISAMARKAN]` sebelum data dikirim ke cloud.
+> 2. **Penyimpanan Kunci Terenkripsi:** API Key tidak di-*hardcode* di repository atau disimpan di `SharedPreferences` terbuka, melainkan disimpan menggunakan `FlutterSecureStorage` dengan enkripsi Android KeyStore / iOS Keychain.
+> 3. **Instruksi Batasan pada System Prompt:** System prompt secara eksplisit melarang AI untuk meminta atau menyimpan kata sandi, NIK, maupun informasi finansial pengguna.
 
-### 3. Menguji Percakapan & Fallback
-- **Uji Chat Normal:** Ketik *"Jadwal kuliah hari Senin?"* -> Klik Kirim -> Asisten AI merespons dengan cepat.
-- **Uji Saran Cepat:** Tekan salah satu chip saran (*"Jadwal Kuliah"*, *"Ujian Tengah Semester"*).
-- **Uji Fallback Error:** Coba kosongkan API Key atau matikan koneksi internet -> Bubble fallback *"Layanan AI Sibuk"* akan muncul dengan ramah tanpa menyebabkan aplikasi terhenti.
+### 3. Fallback apa yang Anda sediakan jika layanan AI error?
+> **Jawaban:**  
+> Apabila terjadi kegagalan jaringan, API key belum disetel, kuota habis (HTTP 429/403), atau server cloud mengalami gangguan, sistem tidak membiarkan aplikasi mengalami *crash* atau *unhandled exception*. Sebaliknya, sistem menangkap error pada layer repository dan menampilkan **Fallback Bubble** ramah pengguna dengan pesan informatif: *"Layanan AI Sibuk: Silakan coba lagi nanti atau gunakan mode offline"*. Selain itu, pengguna diberikan panduan langsung melalui SnackBar untuk mengatur ulang API Key pada ikon kunci di AppBar.
 
----
-
-## 📸 Tangkapan Layar Fitur
-
-| Dashboard Beranda Menu AI | Antarmuka Chat & Dialog API Key |
-|:---:|:---:|
-| ![Beranda](screenshots/image.png) | ![Chat AI](screenshots/image%20copy.png) |
-| *Kartu Asisten AI Kampus pada dashboard* | *Antarmuka percakapan asisten cerdas Gemini* |
-
----
-
-## 🧠 Refleksi Pembelajaran
-
-1. **Mengapa API Key Wajib Disimpan di Secure Storage, Bukan di SharedPreferences atau File Konfigurasi?**  
-   SharedPreferences dan file konfigurasi lokal menyimpan data dalam bentuk *plaintext* (teks terbuka) di sistem file perangkat. Bila perangkat pengguna di-*root*, di-*jailbreak*, atau diekspos melalui cadangan data (*backup*), kunci API sangat mudah dicuri dan disalahgunakan. Penggunaan `FlutterSecureStorage` memanfaatkan enkripsi tingkat perangkat keras (*hardware-backed keystore/keychain*) sehingga kunci tetap aman dan terlindungi dari ekstraksi pihak ketiga.
-2. **Peran Kritis System Prompt pada Aplikasi Mobile:**  
-   Tanpa System Prompt, model LLM cenderung menghasilkan jawaban yang sangat panjang, memuat banyak paragraf yang tidak nyaman dibaca di layar smartphone, dan menghabiskan banyak token komputasi. Dengan membatasi persona (*"Maksimal 3 kalimat, ramah, to-the-point"*), pengalaman pengguna menjadi jauh lebih nyaman, cepat, dan biaya konsumsi API terkendali secara optimal.
-3. **Mengapa Fallback Design Sangat Penting pada Fitur Berbasis AI?**  
-   Layanan AI cloud bergantung pada koneksi internet, kuota token, dan stabilitas server penyedia (Google/OpenAI). Kegagalan jaringan atau *rate limit* adalah hal yang wajar terjadi (*expected failure*). Dengan menerapkan Fallback Design, aplikasi tidak mengalami *crash*, pengguna mendapatkan penjelasan yang sopan, dan aplikasi tetap menyediakan opsi alternatif (seperti mode offline atau membaca catatan lokal).
+### 4. Satu hal yang Anda pelajari tentang UI/UX AI di mobile?
+> **Jawaban:**  
+> Pelajaran terpenting adalah **latensi dan ekspektasi pengguna**. Pengguna mobile sangat sensitif terhadap respons yang lambat atau layar yang tampak beku (*frozen*). Oleh karena itu, penting untuk:
+> 1. Menampilkan indikator loading / animasi *typing bubble* saat AI sedang memproses respons.
+> 2. Membatasi panjang teks respons melalui System Prompt (maksimal 2-3 kalimat) agar jawaban tidak memenuhi seluruh layar smartphone dan mudah dibaca secara cepat.
+> 3. Menyediakan tombol aksi cepat (*quick suggestion chips*) seperti topik bantuan yang sering ditanyakan agar pengguna tidak perlu mengetik panjang lebar.

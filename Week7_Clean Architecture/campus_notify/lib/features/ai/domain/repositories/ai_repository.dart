@@ -5,3 +5,4 @@ abstract class AiRepository {
   Future<String?> getApiKey();
   Future<void> saveApiKey(String key);
 }
+

@@ -58,3 +58,4 @@ Layar mobile memiliki keterbatasan ukuran (*viewport*) dan pengguna membutuhkan 
 Selain percakapan teks cerdas, arsitektur `AiService` dirancang modular untuk mengakomodasi kebutuhan fitur multimodal:
 - **Optical Character Recognition (OCR):** Fungsi `recognizeText()` untuk mengekstraksi teks jadwal dari foto papan pengumuman kampus atau kartu tanda mahasiswa (KTM).
 - **Speech-to-Text (STT):** Fungsi `speechToText()` untuk memfasilitasi input suara cepat (*voice query*) bagi mahasiswa yang sedang berjalan kaki di area kampus.
+

@@ -15,3 +15,4 @@ class ChatMessage {
   final DateTime timestamp;
   final bool isError;
 }
+

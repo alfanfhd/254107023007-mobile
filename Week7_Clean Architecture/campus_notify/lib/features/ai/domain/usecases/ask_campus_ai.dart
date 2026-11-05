@@ -16,3 +16,4 @@ class AskCampusAi {
     return _repository.sendMessage(trimmed);
   }
 }
+
